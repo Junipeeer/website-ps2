@@ -2,7 +2,7 @@ import React from 'react'
 import Table from './Table'
 import Form from './Form'
 
-class App extends React.Component {
+class Home extends React.Component {
   state = {
     characters: [
       {
@@ -46,4 +46,4 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default Home
