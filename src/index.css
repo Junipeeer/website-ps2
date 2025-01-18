@@ -23,7 +23,6 @@ body {
   align-items: center;
   -moz-perspective: 1000px;
   perspective: 1000px;
-  transform-style: preserve-3d;
   overflow: hidden;
 }
 
@@ -37,9 +36,13 @@ body {
   transform-style: preserve-3d;
   z-index: 1;
   transition: transform .3s linear;
+  will-change: transform;
 }
 
 .cube-inner {
+  user-select: none;
+  pointer-events: none;
+  filter: contrast(2);
   transform-style: preserve-3d;
   transition: transform .5s linear, opacity 0.3s ease, font-size 0.15s ease;
 }
@@ -48,45 +51,69 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: visible;
-  transform-style: preserve-3d;
-  overflow: hidden;
   border: 2px solid #ffffff50;
   background: linear-gradient(90deg, rgba(2,0,36,0.3) 0%, rgba(9,9,121,0.3) 35%, rgba(0,212,255,0.3) 100%);
   transition: transform .3s ease, border-radius .3s ease;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .face-content {
-  position: relative;
-  
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1;
-  
+  /* small transform to Prevent backface-visibility not working on chrome */
+  transform: translateZ(0.1px);
+  -webkit-transform: translateZ(0.1px);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.face *:not(.face-content) {
+  transform: translateZ(0.1px);
+  -webkit-transform: translateZ(0.1px);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .face-content h1 {
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
   user-select: none; 
-  font-size: 80px;
+  font-size: 4em;
   transition: all .3s ease;
-  text-shadow: 3px 3px 11px rgba(3, 3, 24, 0.3);
+  text-shadow: 3px 3px 15px rgba(3, 3, 24, 0.4);
   color: white;
 }
 
-.face-content:hover h1 {
-  font-size: 120px;
-  text-decoration-line: underline
+.face:not(.front):hover h1  {
+  font-size: 5.5em;
+  text-decoration-line: underline;
+  text-shadow: 3px 3px 20px rgba(3, 3, 24, 0.5);
 }
 
-.face:active {
-  border: 5px solid #ffffff50;
+.face:not(.front):active {
+  border-width: 5px;
   border-radius: 50px;
+}
+
+.structured {
+  flex-direction: column;
+}
+
+.structured h1 {
+  font-size: 3.5em;
+  text-shadow: 3px 3px 11px rgba(3, 3, 24, 0.3);
+}
+
+.structured p {
+  font-size: 2em;
+  text-shadow: 3px 3px 11px rgba(3, 3, 24, 0.3);
 }
 
 /* Face transforms */
@@ -97,7 +124,6 @@ body {
 .top    { transform: rotateX(90deg) translateZ(min(250px, 40vh)); }
 .bottom { transform: rotateX(-90deg) translateZ(min(250px, 40vh)); }
 
-.front:active  { transform: translateZ(min(300px, 45vh)); }
 .back:active   { transform: rotateY(180deg) translateZ(min(300px, 45vh)); }
 .right:active  { transform: rotateY(90deg) translateZ(min(300px, 45vh));  }
 .left:active   { transform: rotateY(-90deg) translateZ(min(300px, 45vh)); }

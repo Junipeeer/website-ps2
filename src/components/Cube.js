@@ -1,24 +1,28 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 const Cube = () => {
   const cubeRef = useRef(null);
   const innerRef = useRef(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [currentEmoji, setCurrentEmoji] = useState('🅱️');
+  const [currentEmoji, setCurrentEmoji] = useState('👋');
   const [emojiOpacity, setEmojiOpacity] = useState(0.7);
   const [emojiFontSize, setEmojiFontSize] = useState(300);
   const animationFrameRef = useRef();
   const startTimeRef = useRef(Date.now());
+  const [currentFace, setCurrentFace] = useState("front");
 
   const FACE_EMOJIS = useMemo(() => ({
-    front: '🅱️',
-    left: '⬅️',
-    right: '➡️',
-    top: '⬆️',
-    bottom: '⬇️'
+    front: '👋',
+    left: '🎨',
+    right: '🛠️',
+    top: '🔗',
+    bottom: '💡'
   }), []);
 
   const handleFaceHover = (face) => {
+    if (currentFace === face) return;
+    setCurrentFace(face);
     setEmojiOpacity(0);
     setEmojiFontSize(100);
     setTimeout(() => {
@@ -97,6 +101,7 @@ const Cube = () => {
       setRotation({ x: 0, y: 0 });
       setEmojiOpacity(0);
       setEmojiFontSize(100);
+      setCurrentFace("front");
       setTimeout(() => {
         setCurrentEmoji(FACE_EMOJIS.front);
         setEmojiOpacity(0.7);
@@ -117,7 +122,7 @@ const Cube = () => {
     <div className="container">
       <div className="desaturated-background"></div>
       <div className="cube-wrapper">
-        <div className="cube" ref={cubeRef}>
+        <div className="cube font-mono justify-center align-middle" ref={cubeRef}>
           <p className="cube-inner" 
             ref={innerRef} 
             style={{
@@ -127,21 +132,24 @@ const Cube = () => {
             {currentEmoji}
           </p>
           <div className="face front" onMouseEnter={() => handleFaceHover('front')}>
-            <div className="face-content"><h1>Front</h1></div>
+            <div className="face-content structured">
+              <h1 className="">Julian Schalon</h1>
+              <p>Media Developer</p>
+            </div>
           </div>
           <div className="face back">
           </div>
           <div className="face right" onMouseEnter={() => handleFaceHover('right')}>
-            <div className="face-content"><h1>Right</h1></div>
+            <Link to="/projects" className="face-content"><h1>Projects</h1></Link>
           </div>
           <div className="face left" onMouseEnter={() => handleFaceHover('left')}>
-            <div className="face-content"><h1>Left</h1></div>
+            <Link to="/portfolio" className="face-content"><h1>Portfolio</h1></Link>
           </div>
           <div className="face top" onMouseEnter={() => handleFaceHover('top')}>
-            <div className="face-content"><h1>Top</h1></div>
+            <Link to="/links" className="face-content"><h1>links</h1></Link>
           </div>
           <div className="face bottom" onMouseEnter={() => handleFaceHover('bottom')}>
-            <div className="face-content"><h1>Bottom</h1></div>
+            <Link to="/blog" className="face-content"><h1>Blog</h1></Link>
           </div>
         </div>
       </div>
