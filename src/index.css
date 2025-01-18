@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,17 +24,24 @@ body {
   -moz-perspective: 1000px;
   perspective: 1000px;
   transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
+  overflow: hidden;
 }
 
 .cube {
   position: relative;
-  width: min(500px, 50vw);
-  height: min(500px, 50vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(500px, 80vh);
+  height: min(500px, 80vh);
   transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
   z-index: 1;
   transition: transform .3s linear;
+}
+
+.cube-inner {
+  transform-style: preserve-3d;
+  transition: transform .5s linear, opacity 0.3s ease, font-size 0.15s ease;
 }
 
 .face {
@@ -43,17 +50,15 @@ body {
   height: 100%;
   backface-visibility: visible;
   transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
   overflow: hidden;
   border: 2px solid #ffffff50;
   background: linear-gradient(90deg, rgba(2,0,36,0.3) 0%, rgba(9,9,121,0.3) 35%, rgba(0,212,255,0.3) 100%);
+  transition: transform .3s ease, border-radius .3s ease;
 }
 
 .face-content {
   position: relative;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
+  
   width: 100%;
   height: 100%;
   display: flex;
@@ -64,7 +69,11 @@ body {
 }
 
 .face-content h1 {
-  font-size: 24px;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  user-select: none; 
+  font-size: 80px;
   transition: all .3s ease;
   text-shadow: 3px 3px 11px rgba(3, 3, 24, 0.3);
   color: white;
@@ -75,13 +84,25 @@ body {
   text-decoration-line: underline
 }
 
+.face:active {
+  border: 5px solid #ffffff50;
+  border-radius: 50px;
+}
+
 /* Face transforms */
-.front  { transform: translateZ(min(250px, 25vw)); }
-.back   { transform: rotateY(180deg) translateZ(min(250px, 25vw)); }
-.right  { transform: rotateY(90deg) translateZ(min(250px, 25vw)); }
-.left   { transform: rotateY(-90deg) translateZ(min(250px, 25vw)); }
-.top    { transform: rotateX(90deg) translateZ(min(250px, 25vw)); }
-.bottom { transform: rotateX(-90deg) translateZ(min(250px, 25vw)); }
+.front  { transform: translateZ(min(250px, 40vh)); }
+.back   { transform: rotateY(180deg) translateZ(min(250px, 40vh)); }
+.right  { transform: rotateY(90deg) translateZ(min(250px, 40vh)); }
+.left   { transform: rotateY(-90deg) translateZ(min(250px, 40vh)); }
+.top    { transform: rotateX(90deg) translateZ(min(250px, 40vh)); }
+.bottom { transform: rotateX(-90deg) translateZ(min(250px, 40vh)); }
+
+.front:active  { transform: translateZ(min(300px, 45vh)); }
+.back:active   { transform: rotateY(180deg) translateZ(min(300px, 45vh)); }
+.right:active  { transform: rotateY(90deg) translateZ(min(300px, 45vh));  }
+.left:active   { transform: rotateY(-90deg) translateZ(min(300px, 45vh)); }
+.top:active    { transform: rotateX(90deg) translateZ(min(300px, 45vh));  }
+.bottom:active { transform: rotateX(-90deg) translateZ(min(300px, 45vh)); }
 
 .desaturated-background {
   position: fixed;
