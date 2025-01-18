@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {motion as m} from 'framer-motion'
 
 const Cube = () => {
   const cubeRef = useRef(null);
@@ -11,12 +12,11 @@ const Cube = () => {
   const animationFrameRef = useRef();
   const startTimeRef = useRef(Date.now());
   const [currentFace, setCurrentFace] = useState("front");
-
   const FACE_EMOJIS = useMemo(() => ({
     front: '👋',
     left: '🎨',
     right: '🛠️',
-    top: '🔗',
+    top: '🌐',
     bottom: '💡'
   }), []);
 
@@ -121,7 +121,11 @@ const Cube = () => {
   return (
     <div className="container">
       <div className="desaturated-background"></div>
-      <div className="cube-wrapper">
+      <m.div className="cube-wrapper"
+        animate={{translateY: 0, scale: 1 }}
+        transition={{delay: 0.2, duration: 0.7, ease: "easeOut"}}
+        exit={{translateY: "100%", scale: 0.1 }}
+      >
         <div className="cube font-mono justify-center align-middle" ref={cubeRef}>
           <p className="cube-inner" 
             ref={innerRef} 
@@ -140,19 +144,19 @@ const Cube = () => {
           <div className="face back">
           </div>
           <div className="face right" onMouseEnter={() => handleFaceHover('right')}>
-            <Link to="/projects" className="face-content"><h1>Projects</h1></Link>
+            <Link className="face-content" to="/projects"><h1>Projects</h1></Link>
           </div>
           <div className="face left" onMouseEnter={() => handleFaceHover('left')}>
-            <Link to="/portfolio" className="face-content"><h1>Portfolio</h1></Link>
+            <Link className="face-content" to="/portfolio"><h1>Portfolio</h1></Link>
           </div>
           <div className="face top" onMouseEnter={() => handleFaceHover('top')}>
-            <Link to="/links" className="face-content"><h1>links</h1></Link>
+            <Link className="face-content" to="/links"><h1>Links</h1></Link>
           </div>
           <div className="face bottom" onMouseEnter={() => handleFaceHover('bottom')}>
-            <Link to="/blog" className="face-content"><h1>Blog</h1></Link>
+            <Link className="face-content" to="/blog"><h1>Blog</h1></Link>
           </div>
         </div>
-      </div>
+      </m.div>
     </div>
   );
 };

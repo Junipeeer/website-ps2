@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   return (
-    <nav>
+    <nav className="fixed flex gap-4 z-50">
       <Link to="/">Home</Link>
       <Link to="/portfolio">Portfolio</Link>
       <Link to="/projects">Projects</Link>

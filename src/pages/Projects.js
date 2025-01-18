@@ -1,11 +1,11 @@
 import {motion as m} from 'framer-motion'
 
-const Portfolio = () => {
+const Projects = () => {
   return (
     <m.div className="page flex justify-center align-middle w-full h-full desaturated-background">
-      <div>Portfolio Portfolio Portfolio Portfolio</div>
+      <div>Projects Projects Projects Projects</div>
     </m.div>
   );
 };
 
-export default Portfolio;
+export default Projects;

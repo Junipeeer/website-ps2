@@ -1,9 +1,10 @@
+import {motion as m} from 'framer-motion'
 
 const Blog = () => {
   return (
-    <div className="home">
-      <div>Eejgk agejk blog</div>
-    </div>
+    <m.div className="page flex justify-center align-middle w-full h-full desaturated-background">
+      <div>Blog Blog Blog Blog</div>
+    </m.div>
   );
 };
 
