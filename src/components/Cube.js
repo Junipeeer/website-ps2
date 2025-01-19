@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo} from 'react';
 import {Link} from 'react-router-dom';
 import {motion as m} from 'framer-motion'
 
@@ -17,16 +17,25 @@ const Cube = () => {
     left: '🎨',
     right: '🛠️',
     top: '🌐',
-    bottom: '💡'
+    bottom: '💡',
+    clocks: ['🕛', '🕧', '🕐', '🕜', '🕑', '🕝', '🕒', '🕞', '🕓', '🕟', '🕔', '🕠', '🕕', '🕡', '🕖', '🕢', '🕗', '🕣', '🕘', '🕤', '🕙', '🕥', '🕚', '🕦']
   }), []);
 
   const handleFaceHover = (face) => {
     if (currentFace === face) return;
     setCurrentFace(face);
+    updateEmoji(face);
+  };
+  
+  const updateEmoji = (face, index=-1) => {
     setEmojiOpacity(0);
     setEmojiFontSize(100);
     setTimeout(() => {
-      setCurrentEmoji(FACE_EMOJIS[face]);
+      if (index !== -1) {
+        setCurrentEmoji(FACE_EMOJIS[face][index]);
+      } else {
+        setCurrentEmoji(FACE_EMOJIS[face]);
+      }
       setEmojiOpacity(0.7);
       setEmojiFontSize(300);
     }, 150);
@@ -97,17 +106,38 @@ const Cube = () => {
       setRotation({ x: rotX, y: rotY });
     };
     
-    const handleMouseLeave = (e) => { 
-      setRotation({ x: 0, y: 0 });
-      setEmojiOpacity(0);
-      setEmojiFontSize(100);
-      setCurrentFace("front");
-      setTimeout(() => {
-        setCurrentEmoji(FACE_EMOJIS.front);
-        setEmojiOpacity(0.7);
-        setEmojiFontSize(300);
-      }, 150);
+    const handleMouseLeave = (e) => {
+      updateClockFace();
     };
+
+    const updateClockFace = () => {
+      let date = new Date();
+      let hour = date.getHours() % 12;
+      let minutes = date.getMinutes();
+      if (minutes >= 30) {
+        minutes = 1;
+      } else {
+        minutes = 0;
+      }
+      let clkIndex = hour * 2 + minutes;
+      setCurrentFace(FACE_EMOJIS.clocks[clkIndex]);
+      setRotation({ x: 0, y: 0 });
+      updateEmoji('clocks', clkIndex);
+    };
+
+    // Calculate time until next minute
+    const now = new Date();
+    const msUntilNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+    // Initial timeout to sync with minute change
+    const initialTimeout = setTimeout(() => {
+      updateClockFace();
+      // After initial sync, update every minute
+      const clockInterval = setInterval(updateClockFace, 60000);
+      
+      // Store interval ID for cleanup
+      return () => clearInterval(clockInterval);
+    }, msUntilNextMinute);
 
     document.body.addEventListener('mousemove', handleMouseMove);
     document.body.addEventListener('mouseleave', handleMouseLeave);
@@ -115,8 +145,9 @@ const Cube = () => {
     return () => {
       document.body.removeEventListener('mousemove', handleMouseMove);
       document.body.removeEventListener('mouseleave', handleMouseLeave);
+      clearTimeout(initialTimeout);
     };
-  }, [FACE_EMOJIS]);
+  }, [FACE_EMOJIS, updateEmoji]);
 
   return (
     <div className="container">
