@@ -9,6 +9,7 @@ const Cube = () => {
   const [currentEmoji, setCurrentEmoji] = useState('👋');
   const [emojiOpacity, setEmojiOpacity] = useState(0.7);
   const [emojiFontSize, setEmojiFontSize] = useState(300);
+  const [emojiSquish, setEmojiSquish] = useState(1);
   const animationFrameRef = useRef();
   const startTimeRef = useRef(Date.now());
   const [currentFace, setCurrentFace] = useState("front");
@@ -37,7 +38,12 @@ const Cube = () => {
         setCurrentEmoji(FACE_EMOJIS[face]);
       }
       setEmojiOpacity(0.7);
-      setEmojiFontSize(300);
+      setEmojiSquish(1.3);
+      setEmojiFontSize(350);
+      setTimeout(() => {
+        setEmojiFontSize(300);
+        setEmojiSquish(1);
+      }, 160);
     }, 150);
   };
 
@@ -158,14 +164,17 @@ const Cube = () => {
         exit={{translateY: "100%", scale: 0.1 }}
       >
         <div className="cube font-mono justify-center align-middle" ref={cubeRef}>
-          <p className="cube-inner" 
-            ref={innerRef} 
+          <div className="emoji-wrapper" ref={innerRef}  style={{transform: `scaleX(${emojiSquish})`}}>
+            <p className="cube-emoji" 
+            
             style={{
               opacity: emojiOpacity,
-              fontSize: `${emojiFontSize}px`
+              fontSize: `${emojiFontSize}px`,
+              transform: `scaleX(${emojiSquish})`,
             }}>
             {currentEmoji}
           </p>
+          </div>
           <div className="face front" onMouseEnter={() => handleFaceHover('front')}>
             <div className="face-content structured">
               <h1 className="">Julian Schalon</h1>

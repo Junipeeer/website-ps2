@@ -39,9 +39,13 @@ body {
   outline: 1px solid transparent;
 }
 
-.cube-inner {
+.emoji-wrapper {
+  transition: transform .5s linear;
   user-select: none;
   pointer-events: none;
+}
+
+.cube-emoji {
   filter: contrast(2);
   transform-style: preserve-3d;
   transition: transform .5s linear, opacity 0.3s ease, font-size 0.15s ease;
