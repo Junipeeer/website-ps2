@@ -1,18 +1,15 @@
-import React, { useEffect, useRef, useState, useMemo} from 'react';
+import React, { useEffect, useRef, useState, useMemo} from 'react'
 import {Link} from 'react-router-dom';
 import {motion as m} from 'framer-motion'
+import EmojiBlob from './EmojiBlob'
 
 const Cube = () => {
   const cubeRef = useRef(null);
-  const innerRef = useRef(null);
+  const emojiRef = useRef(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [currentEmoji, setCurrentEmoji] = useState('👋');
-  const [emojiOpacity, setEmojiOpacity] = useState(0.7);
-  const [emojiFontSize, setEmojiFontSize] = useState(300);
-  const [emojiSquish, setEmojiSquish] = useState(1);
   const animationFrameRef = useRef();
   const startTimeRef = useRef(Date.now());
-  const [currentFace, setCurrentFace] = useState("front");
+  const [currentFace, setCurrentFace] = useState("👋");
   const FACE_EMOJIS = useMemo(() => ({
     front: '👋',
     left: '🎨',
@@ -24,29 +21,9 @@ const Cube = () => {
 
   const handleFaceHover = (face) => {
     if (currentFace === face) return;
-    setCurrentFace(face);
-    updateEmoji(face);
+    setCurrentFace(FACE_EMOJIS[face]);
   };
   
-  const updateEmoji = (face, index=-1) => {
-    setEmojiOpacity(0);
-    setEmojiFontSize(100);
-    setTimeout(() => {
-      if (index !== -1) {
-        setCurrentEmoji(FACE_EMOJIS[face][index]);
-      } else {
-        setCurrentEmoji(FACE_EMOJIS[face]);
-      }
-      setEmojiOpacity(0.7);
-      setEmojiSquish(1.3);
-      setEmojiFontSize(350);
-      setTimeout(() => {
-        setEmojiFontSize(300);
-        setEmojiSquish(1);
-      }, 160);
-    }, 150);
-  };
-
   // Continuous idle animation
   useEffect(() => {
     const animate = () => {
@@ -64,8 +41,8 @@ const Cube = () => {
           rotateZ(${idleRotZ}deg)
         `;
       }
-      if (innerRef.current) {
-        innerRef.current.style.transform = `
+      if (emojiRef.current) {
+        emojiRef.current.style.transform = `
           translateY(${translateY}px)
           rotateY(${-(rotation.y + idleRotY)}deg)
           rotateX(${-(rotation.x + idleRotX)}deg)
@@ -126,9 +103,9 @@ const Cube = () => {
         minutes = 0;
       }
       let clkIndex = hour * 2 + minutes;
-      setCurrentFace(FACE_EMOJIS.clocks[clkIndex]);
       setRotation({ x: 0, y: 0 });
-      updateEmoji('clocks', clkIndex);
+      if (currentFace === FACE_EMOJIS.clocks[clkIndex]) return;
+      setCurrentFace(FACE_EMOJIS.clocks[clkIndex]);
     };
 
     // Calculate time until next minute
@@ -153,7 +130,7 @@ const Cube = () => {
       document.body.removeEventListener('mouseleave', handleMouseLeave);
       clearTimeout(initialTimeout);
     };
-  }, [FACE_EMOJIS, updateEmoji]);
+  }, [FACE_EMOJIS, currentFace]);
 
   return (
     <div className="container">
@@ -164,17 +141,7 @@ const Cube = () => {
         exit={{translateY: "100%", scale: 0.1 }}
       >
         <div className="cube font-mono justify-center align-middle" ref={cubeRef}>
-          <div className="emoji-wrapper" ref={innerRef}  style={{transform: `scaleX(${emojiSquish})`}}>
-            <p className="cube-emoji" 
-            
-            style={{
-              opacity: emojiOpacity,
-              fontSize: `${emojiFontSize}px`,
-              transform: `scaleX(${emojiSquish})`,
-            }}>
-            {currentEmoji}
-          </p>
-          </div>
+          <EmojiBlob ref={emojiRef} emoji={currentFace} />
           <div className="face front" onMouseEnter={() => handleFaceHover('front')}>
             <div className="face-content structured">
               <h1 className="">Julian Schalon</h1>
