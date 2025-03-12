@@ -10,15 +10,15 @@ const EmojiBlob = ({ emoji, ref }) => {
           className="emoji-blob"
           initial={{ 
             opacity: 0,
-            fontSize: "100px",
-            scaleX: 1 
+            scaleY: 0.7,
+            scaleX: 0.5
           }}
           animate={{ 
             opacity: 0.7,
-            fontSize: "300px",
+            scaleY: 1,
             scaleX: 1,
             transition: {
-              duration: 0.16,
+              duration: 0.1,
               type: "spring",
               stiffness: 200,
               mass: 2,
@@ -30,7 +30,7 @@ const EmojiBlob = ({ emoji, ref }) => {
           }}
           exit={{ 
             opacity: 0,
-            fontSize: "100px",
+            scaleX: 0.8,
             transition: { duration: 0.15 }
           }}
         >

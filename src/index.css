@@ -44,26 +44,30 @@ body {
   transition: transform .5s linear;
   user-select: none;
   pointer-events: none;
+  will-change: transform;
 }
 
 .emoji-blob {
   filter: contrast(2);
   transform-style: preserve-3d;
   will-change: transform;
-  outline: 1px solid transparent;
+  backface-visibility: hidden;
+  font-size: 300px;
 }
 
 .face {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 2px solid #ffffff50;
+  box-sizing: border-box;
+  border: 2px solid rgba(131, 154, 184, 0.856);
   background: linear-gradient(90deg, rgba(2,0,36,0.3) 0%, rgba(9,9,121,0.3) 35%, rgba(0,212,255,0.3) 100%);
   transition: transform .3s ease, border-radius .3s ease;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   will-change: transform;
   outline: 1px solid transparent;
+  box-shadow: inset 3px 3px 30px 10px #ffffff62;
 }
 
 .face-content {

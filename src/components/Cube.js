@@ -138,7 +138,7 @@ const Cube = () => {
       <m.div className="cube-wrapper"
         animate={{translateY: 0, scale: 1 }}
         transition={{delay: 0.2, duration: 0.7, ease: "easeOut"}}
-        exit={{translateY: "100%", scale: 0.1 }}
+        exit={{scale: 0, transition: {delay: 0, duration: 0.3, ease: "easeOut"}}}
       >
         <div className="cube font-mono justify-center align-middle" ref={cubeRef}>
           <EmojiBlob ref={emojiRef} emoji={currentFace} />
