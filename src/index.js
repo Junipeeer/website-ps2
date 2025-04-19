@@ -18,8 +18,8 @@ function App() {
     <>
       <Navigation />
       <AnimatePresence mode={"wait"} initial={false}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
+        <Routes location={location} key={location.pathname} >
+          <Route path="/" index element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/links" element={<Links />} />
@@ -32,7 +32,7 @@ function App() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/website-ps2">
     <App />
   </BrowserRouter>
 );
